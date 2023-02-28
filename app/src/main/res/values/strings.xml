@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">approdite</string>
+    <string name="empty_fields_message">Empty Fields Are not Allowed !!</string>
+    <string name="unregistered_email_message">Unregistered email</string>
+    <string name="wrong_password_message">Wrong password</string>
+    <string name="login_failed_message">Login failed</string>
+    <string name="login_success_message">Login successfully!</string>
 </resources>
