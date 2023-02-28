@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashActivity"
+    android:background="@drawable/bg">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="20dp"
+        android:paddingVertical="45dp"
+        android:background="@color/white_blur">
+
+        <TextView
+            android:id="@+id/title_splash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_splash"
+            android:layout_centerInParent="true"
+            android:textSize="35dp"
+            android:textColor="@color/white"
+            android:paddingLeft="30dp">
+
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/project_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/project_task_splash"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/title_splash"
+            android:paddingLeft="30dp"
+            android:textColor="@color/purple_20"
+            android:textSize="35dp">
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/desc_splash"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/project_task"
+            android:paddingLeft="30dp"
+            android:textColor="@color/white"
+            android:textSize="15dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/desc2_splash"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/desc"
+            android:textColor="@color/white"
+            android:paddingLeft="30dp"
+            android:textSize="15dp">
+        </TextView>
+
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
