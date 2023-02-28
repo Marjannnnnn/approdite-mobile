@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "803195616475",
+    "project_id": "approdite-5bfde",
+    "storage_bucket": "approdite-5bfde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803195616475:android:47e7e3ec4b9faf5ae760fe",
+        "android_client_info": {
+          "package_name": "com.marjannnnn.approdite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "803195616475-3m73cguh417dd63v7bapmcdf3tcijn4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOwGt1olhSvC17zG3Gpoq2lU5E9m_VaWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803195616475-3m73cguh417dd63v7bapmcdf3tcijn4o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
