@@ -25,14 +25,12 @@
     <string name="login">Login</string>
     <string name="forgot_pw_login">Forgot password?</string>
 
-    <!--    Dashboard Screen-->
-    <string name="welcome">Welcome User !</string>
+    <string name="menu_dashboard">Dashboard</string>
+    <string name="menu_leaderboard">Leaderboard</string>
+    <string name="menu_store">Store</string>
+    <string name="menu_profile">Profile</string>
 
-    <!--    Halaman list-->
-    <string name="list_name">My Todo List</string>
-
-    <!--   halaman profil -->
-    <string name="profile">Halo i am User</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="logout">Logout !</string>
 </resources>
