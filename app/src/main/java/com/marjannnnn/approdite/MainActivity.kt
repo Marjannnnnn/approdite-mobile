@@ -13,7 +13,6 @@ import com.marjannnnn.approdite.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseAuth: FirebaseAuth
-//    private lateinit var logOutBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +34,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-//        logOutBtn = findViewById(R.id.logOutBtn)
 
-//        logOutBtn.setOnClickListener {
-//            firebaseAuth.signOut()
-//            val intent = Intent(this, SignInActivity::class.java)
-//            startActivity(intent)
-//            Toast.makeText(
-//                this, "Logout successfully!", Toast.LENGTH_SHORT
-//            ).show()
-//            finish()
-//        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
