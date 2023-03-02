@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
@@ -47,19 +48,20 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        if (firebaseAuth.currentUser == null) {
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
+    }
+
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Apakah Anda yakin ingin keluar?").setCancelable(false)
+            .setPositiveButton("Ya") { _, _ ->
+                finishAffinity()
+            }.setNegativeButton("Tidak", null)
+        val alert = builder.create()
+        alert.show()
     }
 }

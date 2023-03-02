@@ -20,7 +20,7 @@ class SignInActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.textView.setOnClickListener {
+        binding.toSignUp.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
@@ -30,13 +30,10 @@ class SignInActivity : AppCompatActivity() {
             val pass = binding.passET.text.toString()
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
-                firebaseAuth.signInWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener { task ->
+                firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(
-                                this,
-                                "Login successfully!",
-                                Toast.LENGTH_SHORT
+                                this, "Login successfully!", Toast.LENGTH_SHORT
                             ).show()
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
@@ -49,11 +46,17 @@ class SignInActivity : AppCompatActivity() {
                     }
             } else {
                 Toast.makeText(
-                    this,
-                    "Empty Fields Are not Allowed !!",
-                    Toast.LENGTH_SHORT
+                    this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (firebaseAuth.currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 }
