@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         app:boxStrokeColor="@color/yellow"
         app:errorEnabled="true"
         app:hintTextColor="@color/yellow"
