@@ -4,69 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashActivity"
-    android:background="@drawable/bg">
+    android:background="@drawable/bg"
+    tools:context=".SplashActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="20dp"
-        android:paddingVertical="45dp"
-        android:background="@color/white_blur">
+        android:background="@color/white_blur"
+        android:orientation="vertical"
+        android:paddingVertical="45dp">
 
         <TextView
             android:id="@+id/title_splash"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_splash"
             android:layout_centerInParent="true"
-            android:textSize="35dp"
+            android:paddingLeft="30dp"
+            android:text="@string/title_splash"
             android:textColor="@color/white"
-            android:paddingLeft="30dp">
-
-        </TextView>
-
+            android:textSize="35dp" />
 
         <TextView
             android:id="@+id/project_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/project_task_splash"
-            android:layout_centerInParent="true"
             android:layout_below="@+id/title_splash"
+            android:layout_centerInParent="true"
             android:paddingLeft="30dp"
+            android:text="@string/project_task_splash"
             android:textColor="@color/purple_20"
-            android:textSize="35dp">
-        </TextView>
+            android:textSize="35dp" />
 
 
         <TextView
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/desc_splash"
-            android:layout_centerInParent="true"
             android:layout_below="@+id/project_task"
+            android:layout_centerInParent="true"
             android:paddingLeft="30dp"
+            android:text="@string/desc_splash"
             android:textColor="@color/white"
-            android:textSize="15dp">
-        </TextView>
+            android:textSize="15dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/desc2_splash"
-            android:layout_centerInParent="true"
             android:layout_below="@+id/desc"
-            android:textColor="@color/white"
+            android:layout_centerInParent="true"
             android:paddingLeft="30dp"
-            android:textSize="15dp">
-        </TextView>
-
-
-
+            android:text="@string/desc2_splash"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
 
     </LinearLayout>
 
