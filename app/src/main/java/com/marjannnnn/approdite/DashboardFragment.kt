@@ -71,6 +71,7 @@ class DashboardFragment : Fragment() {
 
         val projectsRef = database.getReference("projects")
         projectsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 projectList.clear()
 
@@ -135,4 +136,6 @@ class DashboardFragment : Fragment() {
             }
         }
     }
+
+
 }
