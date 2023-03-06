@@ -1,57 +1,73 @@
 package com.marjannnnn.approdite
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.FirebaseDatabase
+
 
 class ProjectAdapter(
-    var projects: List<Project>,
-) : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
-    override fun getItemCount() = projects.size
+    private var projectDataList: List<Project>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
 
-    class ProjectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val projectNameTextView: TextView = itemView.findViewById(R.id.project_name)
-        val taskNameTextView: TextView = itemView.findViewById(R.id.task_name)
-        val numberTextView: TextView = itemView.findViewById(R.id.number)
-        val deleteButton: ImageButton = itemView.findViewById(R.id.delete_btn)
+    interface OnItemClickListener {
+        fun onEditClick(project: Project)
+        fun onDeleteClick(project: Project)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.project_item_layout, parent, false)
-        return ProjectViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val context = parent.context
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.project_item_layout, parent, false)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ProjectViewHolder, position: Int) {
-        val project = projects[position]
-        holder.numberTextView.text = (position + 1).toString()
-        holder.projectNameTextView.text = project.projectName
-        holder.taskNameTextView.text = project.taskName
-        holder.deleteButton.setOnClickListener {
-            deleteProject(project.id!!, holder.itemView.context)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val projectData = projectDataList[position]
+        holder.projectNumber.text = (position + 1).toString()
+        holder.projectName.text = projectData.projectName
+        holder.taskName.text = projectData.taskName
+
+        holder.editBtn.setOnClickListener {
+            listener.onEditClick(projectData)
+        }
+
+        holder.deleteBtn.setOnClickListener {
+            listener.onDeleteClick(projectData)
         }
     }
 
+    fun setData(newProjectList: List<Project>) {
+        projectDataList = newProjectList
+        notifyDataSetChanged()
+    }
 
-    private fun deleteProject(projectId: Int, context: Context) {
-        val rootNode = FirebaseDatabase.getInstance().reference
-        val projectRef = rootNode.child("projects").child(projectId.toString())
-//        Log.i("ingfo","$projectRef")
-        projectRef.removeValue().addOnSuccessListener {
-            Toast.makeText(
-                context, "Project deleted successfully!", Toast.LENGTH_SHORT
-            ).show()
-        }.addOnFailureListener {
-            Toast.makeText(
-                context, "Error deleting project: ${it.message}", Toast.LENGTH_LONG
-            ).show()
+    override fun getItemCount() = projectDataList.size
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val projectNumber: TextView = itemView.findViewById(R.id.project_number)
+        val projectName: TextView = itemView.findViewById(R.id.project_name)
+        val taskName: TextView = itemView.findViewById(R.id.task_name)
+        val editBtn: ImageButton = itemView.findViewById(R.id.edit_btn)
+        val deleteBtn: ImageButton = itemView.findViewById(R.id.delete_btn)
+
+        init {
+            editBtn.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onEditClick(projectDataList[position])
+                }
+            }
+
+            deleteBtn.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onDeleteClick(projectDataList[position])
+                }
+            }
         }
     }
 }
