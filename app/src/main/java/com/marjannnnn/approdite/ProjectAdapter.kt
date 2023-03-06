@@ -44,7 +44,6 @@ class ProjectAdapter(
         val rootNode = FirebaseDatabase.getInstance().reference
         val projectRef = rootNode.child("projects").child(projectId.toString())
 //        Log.i("ingfo","$projectRef")
-
         projectRef.removeValue().addOnSuccessListener {
             Toast.makeText(
                 context, "Project deleted successfully!", Toast.LENGTH_SHORT
