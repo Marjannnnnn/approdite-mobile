@@ -1,11 +1,13 @@
 package com.marjannnnn.approdite
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,26 +30,45 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class DashboardFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    private lateinit var fab: FloatingActionButton
     private lateinit var projectRecyclerView: RecyclerView
-
     private lateinit var projectAdapter: ProjectAdapter
+    private lateinit var progressBar: ProgressBar
+    private lateinit var fab: FloatingActionButton
+    private lateinit var database: FirebaseDatabase
     private lateinit var projectList: MutableList<Project>
 
-    private lateinit var database: FirebaseDatabase
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(requireContext())
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+    }
 
-        database = FirebaseDatabase.getInstance()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        progressBar = view.findViewById(R.id.progress_bar)
+        fab = view.findViewById(R.id.fab)
+
+        setupRecyclerView()
+        setupFirebase()
+
+        fab.setOnClickListener {
+            showAddProjectDialog()
+        }
+    }
+
+    private fun setupRecyclerView() {
+        projectRecyclerView = requireView().findViewById(R.id.project_list)
         projectList = mutableListOf()
         projectAdapter = ProjectAdapter(projectList)
+        projectRecyclerView.adapter = projectAdapter
+        projectRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
 
-        // Read data from Firebase and update RecyclerView
+    private fun setupFirebase() {
+        FirebaseApp.initializeApp(requireContext())
+        database = FirebaseDatabase.getInstance()
+
         val projectsRef = database.getReference("projects")
         projectsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -55,120 +76,62 @@ class DashboardFragment : Fragment() {
 
                 for (projectSnapshot in snapshot.children) {
                     val project = projectSnapshot.getValue(Project::class.java)
-                    if (project != null) {
-                        projectList.add(project)
+                    project?.let {
+                        projectList.add(it)
                     }
                 }
-
                 projectAdapter.notifyDataSetChanged()
+                progressBar.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(requireContext(), "Failed to read project data", Toast.LENGTH_SHORT)
                     .show()
+                progressBar.visibility = View.GONE
             }
         })
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
-    }
+    private fun showAddProjectDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
+        val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
+        val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setPositiveButton("Submit") { dialog, which ->
+            val projectName = projectEditText.text.toString()
+            val taskName = taskEditText.text.toString()
 
-        fab = requireView().findViewById(R.id.fab)
-
-        fab.setOnClickListener {
-            val dialogView =
-                LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
-            val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
-            val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
-
-            val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
-            dialogBuilder.setView(dialogView)
-            dialogBuilder.setPositiveButton("Submit") { dialog, which ->
-                val projectName = projectEditText.text.toString()
-                val taskName = taskEditText.text.toString()
-
-                // Get reference to the root node of Realtime Database
-                val rootNode = FirebaseDatabase.getInstance().reference
-
-                // Get reference to "projects" node
-                val projectsRef = rootNode.child("projects")
-
-                // Generate unique key for this project
-                val projectId = projectsRef.push().key
-
-                // Create HashMap object to store project data
-                val projectData = HashMap<String, Any>()
-                projectData["projectName"] = projectName
-                projectData["taskName"] = taskName
-
-                // Add project data to "projects" node
-                val task = projectsRef.child(projectId!!).setValue(projectData)
-
-                // Show success or error message
-                task.addOnSuccessListener {
-                    Toast.makeText(
-                        requireContext(), "Project added successfully!", Toast.LENGTH_SHORT
-                    ).show()
-                }.addOnFailureListener {
-                    Toast.makeText(
-                        requireContext(), "Error adding project: ${it.message}", Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-
-            dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
-                dialog.dismiss()
-            }
-
-            val dialog = dialogBuilder.create()
-            dialog.show()
+            addProjectToFirebase(projectName, taskName)
         }
 
-        projectAdapter.setOnItemClickListener(object : ProjectAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
-                dialogBuilder.setMessage("Delete this project?")
-                dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-                    val projectId = projectAdapter.projects[position].id
-//                    projectAdapter.deleteProject(position) error
-                    FirebaseDatabase.getInstance().reference.child("projects").child(projectId!!).removeValue()
-                    Toast.makeText(requireContext(), "Project deleted", Toast.LENGTH_SHORT).show()
-                }
-                dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
-                    dialog.dismiss()
-                }
-                val dialog = dialogBuilder.create()
-                dialog.show()
-            }
-        })
+        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
+            dialog.dismiss()
+        }
 
-        projectRecyclerView = requireView().findViewById(R.id.project_list)
-        projectRecyclerView.adapter = projectAdapter
-        projectRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 
+    private fun addProjectToFirebase(projectName: String, taskName: String) {
+        val rootNode = FirebaseDatabase.getInstance().reference
+        val projectsRef = rootNode.child("projects")
+        val projectId = projectsRef.push().key
+        val projectData = hashMapOf(
+            "projectName" to projectName, "taskName" to taskName
+        )
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DashboardFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) = DashboardFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_PARAM1, param1)
-                putString(ARG_PARAM2, param2)
+        projectId?.let {
+            val task = projectsRef.child(it).setValue(projectData)
+            task.addOnSuccessListener {
+                Toast.makeText(
+                    requireContext(), "Project added successfully!", Toast.LENGTH_SHORT
+                ).show()
+            }.addOnFailureListener {
+                Toast.makeText(
+                    requireContext(), "Error adding project: ${it.message}", Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
