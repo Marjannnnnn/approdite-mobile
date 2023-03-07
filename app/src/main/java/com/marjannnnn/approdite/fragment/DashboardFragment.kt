@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -72,9 +73,31 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         dialog.show()
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun onItemClick(project: Project) {
+        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
+        dialogBuilder.setTitle("Detail Project")
+
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.detail_layout, null)
+        val projectNameTextView = dialogView.findViewById<TextView>(R.id.project_name_textview)
+        val taskNameTextView = dialogView.findViewById<TextView>(R.id.task_name_textview)
+
+        // set text to the TextViews
+        projectNameTextView.text = "Project: ${project.projectName}"
+        taskNameTextView.text = "Task: ${project.taskName}"
+
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setPositiveButton("OK") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
+    }
+
+
     override fun onEditClick(project: Project) {
-        val dialogView =
-            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
         val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
         val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
 

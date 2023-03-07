@@ -18,6 +18,7 @@ class ProjectAdapter(
     interface OnItemClickListener {
         fun onEditClick(project: Project)
         fun onDeleteClick(project: Project)
+        fun onItemClick(project: Project)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -57,6 +58,9 @@ class ProjectAdapter(
         val deleteBtn: ImageButton = itemView.findViewById(R.id.delete_btn)
 
         init {
+            itemView.setOnClickListener {
+                listener.onItemClick(projectDataList[adapterPosition])
+            }
             editBtn.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
