@@ -34,4 +34,10 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="logout">Logout !</string>
     <string name="floating_action_text">Add new project</string>
+
+    <string name="insert_student">INSERT STUDENT</string>
+    <string name="insert">INSERT</string>
+    <string name="name">Kevin</string>
+    <string name="nim">undefined</string>
+    <string name="fakultas">Smk Wikrama</string>
 </resources>

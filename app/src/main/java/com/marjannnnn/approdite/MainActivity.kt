@@ -7,6 +7,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.marjannnnn.approdite.databinding.ActivityMainBinding
+import com.marjannnnn.approdite.fragment.DashboardFragment
+import com.marjannnnn.approdite.fragment.HomeFragment
+import com.marjannnnn.approdite.fragment.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

@@ -1,4 +1,4 @@
-package com.marjannnnn.approdite
+package com.marjannnnn.approdite.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.marjannnnn.approdite.R
+import com.marjannnnn.approdite.SignInActivity
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"

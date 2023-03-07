@@ -6,10 +6,11 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/number"
+        android:id="@+id/project_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:text="1"
         android:textStyle="bold" />
 
     <com.google.android.material.divider.MaterialDivider
@@ -29,12 +30,14 @@
             android:id="@+id/project_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Kevin Geming"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/task_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="apa coba" />
 
     </LinearLayout>
 
