@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">approdite</string>
+    <string name="app_name">Approdite</string>
     <string name="empty_fields_message">Empty Fields Are not Allowed !!</string>
     <string name="unregistered_email_message">Unregistered email</string>
     <string name="wrong_password_message">Wrong password</string>
@@ -28,7 +28,7 @@
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="logout">Logout !</string>
-    <string name="floating_action_text">Add new project</string>
+    <string name="floating_action_text">New Project</string>
 
     <string name="insert_student">INSERT STUDENT</string>
     <string name="insert">INSERT</string>

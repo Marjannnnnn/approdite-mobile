@@ -19,4 +19,9 @@
         android:name="com.marjannnnn.approdite.fragment.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/create_project_fragment"
+        android:name="com.marjannnnn.approdite.fragment.FormProjectFragment"
+        android:label="Create Project"
+        tools:layout="@layout/fragment_form_project" />
 </navigation>
