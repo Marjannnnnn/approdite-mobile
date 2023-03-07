@@ -1,6 +1,5 @@
-package com.marjannnnn.approdite
+package com.marjannnnn.approdite.fragment
 
-import DatabaseHandler
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.marjannnnn.approdite.R
+import com.marjannnnn.approdite.adapter.ProjectAdapter
+import com.marjannnnn.approdite.db.DatabaseHandler
+import com.marjannnnn.approdite.model.Project
 
 class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
 

@@ -1,4 +1,4 @@
-package com.marjannnnn.approdite
+package com.marjannnnn.approdite.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.marjannnnn.approdite.R
+import com.marjannnnn.approdite.model.Project
 
 
 class ProjectAdapter(

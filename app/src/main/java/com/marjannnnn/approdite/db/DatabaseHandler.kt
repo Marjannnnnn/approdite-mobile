@@ -1,9 +1,11 @@
+package com.marjannnnn.approdite.db
+
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.marjannnnn.approdite.Project
+import com.marjannnnn.approdite.model.Project
 
 class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
