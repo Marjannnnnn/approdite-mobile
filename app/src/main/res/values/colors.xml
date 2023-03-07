@@ -10,9 +10,11 @@
     <color name="purple_20">#A7B1E4</color>
     <color name="blue">#E2111A49</color>
     <color name="white_blur">#1AFFFFFF</color>
-    <color name="white_text">#D2D2D2</color>
+    <color name="white_text">#C4C8CE</color>
+    <color name="input_white_text">#D2D2D2</color>
     <color name="blue2">#1A6CF8</color>
     <color name="purple_2">#799BA9F3</color>
     <color name="yellow">#FFC801</color>
     <color name="red">#F44336</color>
+    <color name="placeholder">#79747E</color>
 </resources>

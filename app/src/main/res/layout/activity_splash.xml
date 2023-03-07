@@ -14,50 +14,27 @@
         android:layout_marginHorizontal="20dp"
         android:background="@color/white_blur"
         android:orientation="vertical"
-        android:paddingVertical="45dp">
+        android:paddingVertical="50dp"
+        android:paddingStart="32dp"
+        tools:ignore="RtlSymmetry">
 
         <TextView
             android:id="@+id/title_splash"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingLeft="30dp"
             android:text="@string/title_splash"
             android:textColor="@color/white"
-            android:textSize="35dp" />
+            android:textSize="45sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/project_task"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title_splash"
-            android:layout_centerInParent="true"
-            android:paddingLeft="30dp"
-            android:text="@string/project_task_splash"
-            android:textColor="@color/purple_20"
-            android:textSize="35dp" />
-
-
-        <TextView
+            android:layout_marginTop="32dp"
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/project_task"
-            android:layout_centerInParent="true"
-            android:paddingLeft="30dp"
             android:text="@string/desc_splash"
             android:textColor="@color/white"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/desc"
-            android:layout_centerInParent="true"
-            android:paddingLeft="30dp"
-            android:text="@string/desc2_splash"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 

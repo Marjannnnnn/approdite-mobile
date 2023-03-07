@@ -4,10 +4,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextUtils
-import android.text.TextWatcher
+import android.text.*
+import android.text.style.ForegroundColorSpan
 import android.util.Patterns
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -18,13 +18,53 @@ import com.marjannnnn.approdite.databinding.ActivitySignUpBinding
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private var yellowColor: Int = 0
+    private var blueColor: Int = 0
+    private lateinit var titleEmailText: TextView
+    private lateinit var titlePasswordText: TextView
+    private lateinit var titleConfirmPasswordText: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         firebaseAuth = FirebaseAuth.getInstance()
         setContentView(binding.root)
+
+        val star = "*"
+
+        titleEmailText = findViewById(R.id.email_title)
+        titlePasswordText = findViewById(R.id.password_title)
+        titleConfirmPasswordText = findViewById(R.id.confirm_password_title)
+        val titleEmail = "Email "
+        val titlePassword = "Password "
+        val titleConfirmPassword = "Confirm Password "
+
+        val spannableStringEmail = SpannableString(titleEmail + star)
+        val spannableStringPassword = SpannableString(titlePassword + star)
+        val spannableStringConfirmPassword = SpannableString(titleConfirmPassword + star)
+
+        spannableStringEmail.setSpan(
+            ForegroundColorSpan(getColor(R.color.red)),
+            titleEmail.length,
+            spannableStringEmail.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableStringPassword.setSpan(
+            ForegroundColorSpan(getColor(R.color.red)),
+            titlePassword.length,
+            spannableStringPassword.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableStringConfirmPassword.setSpan(
+            ForegroundColorSpan(getColor(R.color.red)),
+            titleConfirmPassword.length,
+            spannableStringConfirmPassword.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        titleEmailText.text = spannableStringEmail
+        titlePasswordText.text = spannableStringPassword
+        titleConfirmPasswordText.text = spannableStringConfirmPassword
 
         binding.toSignIn.setOnClickListener {
             startActivity(Intent(this, SignInActivity::class.java))
@@ -65,14 +105,14 @@ class SignUpActivity : AppCompatActivity() {
 
 
         binding.emailEt.addTextChangedListener(
-            createTextWatcher(binding.emailLayout, ::validateEmail)
+            createTextWatcher(binding.emailLayout, ::clearEmail)
         )
         binding.passET.addTextChangedListener(
-            createTextWatcher(binding.passwordLayout, ::validatePassword)
+            createTextWatcher(binding.passwordLayout, ::clearPassword)
         )
         binding.confirmPassEt.addTextChangedListener(
             createTextWatcher(
-                binding.confirmPasswordLayout, ::validateConfirmPassword
+                binding.confirmPasswordLayout, ::clearConfirmPassword
             )
         )
     }
@@ -91,10 +131,22 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    private fun clearEmail(email: String, emailLayout: TextInputLayout) {
+        if (email.isNotEmpty()) {
+            clearError(emailLayout)
+        }
+    }
+
     private fun validatePassword(password: String, passwordLayout: TextInputLayout) {
         if (password.isEmpty()) {
             setError(passwordLayout, "Password is required")
         } else {
+            clearError(passwordLayout)
+        }
+    }
+
+    private fun clearPassword(password: String, passwordLayout: TextInputLayout) {
+        if (password.isNotEmpty()) {
             clearError(passwordLayout)
         }
     }
@@ -112,6 +164,12 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    private fun clearConfirmPassword(confirmPassword: String, confirmPasswordLayout: TextInputLayout) {
+        if (confirmPassword.isNotEmpty()) {
+            clearError(confirmPasswordLayout)
+        }
+    }
+
     private fun setError(textInputLayout: TextInputLayout, errorMessage: String) {
         textInputLayout.error = errorMessage
         textInputLayout.boxStrokeColor = Color.RED
@@ -119,10 +177,10 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun clearError(textInputLayout: TextInputLayout) {
-        yellowColor = ContextCompat.getColor(this, R.color.yellow)
+        blueColor = ContextCompat.getColor(this, R.color.blue2)
         textInputLayout.error = null
-        textInputLayout.boxStrokeColor = yellowColor
-        textInputLayout.hintTextColor = ColorStateList.valueOf(yellowColor)
+        textInputLayout.boxStrokeColor = blueColor
+        textInputLayout.hintTextColor = ColorStateList.valueOf(blueColor)
     }
 
     private fun createTextWatcher(

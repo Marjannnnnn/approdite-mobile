@@ -7,16 +7,12 @@
     <string name="login_success_message">Login successfully!</string>
 
     <!--    Splash Screen -->
-    <string name="title_splash">Digital\nplatform\nfor managing</string>
-
-    <string name="project_task_splash">project tasks</string>
-    <string name="desc_splash">Manage tasks more practically.</string>
-    <string name="desc2_splash">Make your team much more productive</string>
-
+    <string name="title_splash">Digital\nplatform\nfor managing\nproject tasks.</string>
+    <string name="desc_splash">Manage tasks more practically.\nMake your team much more productive.</string>
 
     <!--    Login Screen-->
     <string name="title_login">Log in</string>
-    <string name="desc_login">Log in to Aprodite below and get your whole team organized</string>
+    <string name="desc_login">Log in to Approdite below and get your whole team organized</string>
     <string name="input">Enter Your Email</string>
     <string name="input_pw">Enter Your Password</string>
     <string name="email_login">Email</string>
@@ -30,7 +26,6 @@
     <string name="menu_store">Store</string>
     <string name="menu_profile">Profile</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="logout">Logout !</string>
     <string name="floating_action_text">Add new project</string>
@@ -40,4 +35,5 @@
     <string name="name">Kevin</string>
     <string name="nim">undefined</string>
     <string name="fakultas">Smk Wikrama</string>
+    <string name="logo">TODO</string>
 </resources>
