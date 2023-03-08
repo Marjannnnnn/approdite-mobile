@@ -1,5 +1,6 @@
 package com.marjannnnn.approdite.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,8 @@ class ProjectAdapter(
 ) : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
+        abstract val supportFragmentManager: Any
+
         fun onEditClick(project: Project)
         fun onDeleteClick(project: Project)
         fun onItemClick(project: Project)
@@ -43,6 +46,7 @@ class ProjectAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(newProjectList: List<Project>) {
         projectDataList = newProjectList
         notifyDataSetChanged()

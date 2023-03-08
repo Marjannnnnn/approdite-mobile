@@ -1,22 +1,57 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
+
 
     <TextView
         android:id="@+id/project_name_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Project Name"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
     <TextView
         android:id="@+id/task_name_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Task Name"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+    <TextView
+        android:id="@+id/assign_to_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Assign To"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+    <TextView
+        android:id="@+id/sprint_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sprint"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+    <TextView
+        android:id="@+id/start_date_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Date"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+    <TextView
+        android:id="@+id/end_date_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End Date"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+    <TextView
+        android:id="@+id/attachment_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="attachment"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
 </LinearLayout>
