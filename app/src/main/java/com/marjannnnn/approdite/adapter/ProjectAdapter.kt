@@ -1,5 +1,6 @@
 package com.marjannnnn.approdite.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class ProjectAdapter(
         return ViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val projectData = projectDataList[position]
         holder.projectNumber.text = (position + 1).toString()
@@ -42,6 +44,7 @@ class ProjectAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(newProjectList: List<Project>) {
         projectDataList = newProjectList
         notifyDataSetChanged()

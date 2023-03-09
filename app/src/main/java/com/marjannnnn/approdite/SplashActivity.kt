@@ -2,7 +2,6 @@ package com.marjannnnn.approdite
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.icu.text.CaseMap.Title
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.marjannnnn.approdite.R
 import com.marjannnnn.approdite.adapter.ProjectAdapter
 import com.marjannnnn.approdite.db.DatabaseHandler
