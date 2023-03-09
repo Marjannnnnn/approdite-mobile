@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.marjannnnn.approdite.MainActivity
 import com.marjannnnn.approdite.R
 import com.marjannnnn.approdite.adapter.ProjectAdapter
 import com.marjannnnn.approdite.db.DatabaseHandler
@@ -36,7 +37,8 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         projectList = view.findViewById(R.id.project_list)
 
         fab.setOnClickListener {
-            showAddProjectDialog()
+            (activity as MainActivity).replaceFragment(FormProjectFragment())
+//            showAddProjectDialog()
         }
 
         // get all project data from database
@@ -83,7 +85,7 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
             }
 
             val dbHandler = DatabaseHandler(requireContext())
-            dbHandler.addData(projectName, taskName)
+//            dbHandler.addData(projectName, taskName)
             val projectDataList = dbHandler.getAllData()
             (projectList.adapter as ProjectAdapter).setData(projectDataList)
 
@@ -93,7 +95,7 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
     }
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "MissingInflatedId")
     override fun onItemClick(project: Project) {
         val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
         dialogBuilder.setTitle("Detail Project")
@@ -101,10 +103,21 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.detail_layout, null)
         val projectNameTextView = dialogView.findViewById<TextView>(R.id.project_name_textview)
         val taskNameTextView = dialogView.findViewById<TextView>(R.id.task_name_textview)
+        val assignToTextView = dialogView.findViewById<TextView>(R.id.assign_to_textview)
+        val sprintTextView = dialogView.findViewById<TextView>(R.id.sprint_textview)
+        val startDateTextView = dialogView.findViewById<TextView>(R.id.start_date_textview)
+        val endDateTextView = dialogView.findViewById<TextView>(R.id.end_date_textview)
+        val attachmentTextView = dialogView.findViewById<TextView>(R.id.attachment_textview)
 
         // set text to the TextViews
         projectNameTextView.text = "Project Name: ${project.projectName}"
         taskNameTextView.text = "Task Name: ${project.taskName}"
+        assignToTextView.text = "Assign To: ${project.assignTo}"
+        sprintTextView.text = "Sprint: ${project.sprint}"
+        startDateTextView.text = "Start Date: ${project.startDate}"
+        endDateTextView.text = "End Date: ${project.endDate}"
+        attachmentTextView.text = "Attachment: ${project.attachment}"
+
 
         dialogBuilder.setView(dialogView)
         dialogBuilder.setPositiveButton("OK") { dialog, which ->
@@ -131,7 +144,7 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
             val taskName = taskEditText.text.toString()
             val dbHandler = DatabaseHandler(requireContext())
             // update project data
-            dbHandler.updateData(Project(project.id, projectName, taskName))
+//            dbHandler.updateData(Project(project.id, projectName, taskName))
             val projectDataList = dbHandler.getAllData()
             (projectList.adapter as ProjectAdapter).setData(projectDataList)
         }
