@@ -1,5 +1,6 @@
 package com.marjannnnn.approdite.model
 
+import java.io.Serializable
 import java.util.Date
 
 data class Project(
@@ -11,4 +12,4 @@ data class Project(
     val startDate: Date,
     val endDate: Date,
     val attachment: String
-)
+): Serializable

@@ -87,8 +87,16 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
     }
 
     override fun onEditClick(project: Project) {
-        (activity as MainActivity).replaceFragment(EditProjectFragment())
+        val args = Bundle().apply {
+            putSerializable("project", project)
+        }
+
+        val editProjectFragment = EditProjectFragment().apply {
+            arguments = args
+        }
+        (activity as MainActivity).replaceFragment(editProjectFragment)
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onDeleteClick(project: Project) {

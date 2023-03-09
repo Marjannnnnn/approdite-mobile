@@ -1,60 +1,122 @@
 package com.marjannnnn.approdite.fragment
 
+import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.marjannnnn.approdite.R
+import android.widget.DatePicker
+import androidx.fragment.app.Fragment
+import com.google.android.material.textfield.TextInputEditText
+import com.marjannnnn.approdite.MainActivity
+import com.marjannnnn.approdite.databinding.FragmentEditProjectBinding
+import com.marjannnnn.approdite.db.DatabaseHandler
+import com.marjannnnn.approdite.model.Project
+import java.text.SimpleDateFormat
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class EditProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
+    private var _binding: FragmentEditProjectBinding? = null
+    private val binding get() = _binding!!
 
-/**
- * A simple [Fragment] subclass.
- * Use the [EditProjectFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class EditProjectFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var databaseHandler: DatabaseHandler
+    private lateinit var datePicker: DatePickerDialog
+    private lateinit var selectedDateEditText: TextInputEditText
+    private lateinit var project: Project
+    private val calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_project, container, false)
+    ): View {
+        _binding = FragmentEditProjectBinding.inflate(inflater, container, false)
+        databaseHandler = DatabaseHandler(requireContext())
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditProjectFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditProjectFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        project = requireArguments().getSerializable("project") as Project
+
+        binding.projectNameEdittext.setText(project.projectName)
+        binding.taskNameEdittext.setText(project.taskName)
+        binding.assignToEdittext.setText(project.assignTo)
+        binding.sprintEdittext.setText(project.sprint.toString())
+        binding.attachmentEdittext.setText(project.attachment)
+        binding.startDateEdittext.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(project.startDate))
+        binding.endDateEdittext.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(project.endDate))
+
+        datePicker = DatePickerDialog(
+            requireContext(),
+            this,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        binding.startDateEdittext.setOnClickListener {
+            selectedDateEditText = binding.startDateEdittext
+            datePicker.show()
+        }
+
+        binding.endDateEdittext.setOnClickListener {
+            selectedDateEditText = binding.endDateEdittext
+            datePicker.show()
+        }
+
+        binding.editButton.setOnClickListener {
+            val projectName = binding.projectNameEdittext.text.toString()
+            val taskName = binding.taskNameEdittext.text.toString()
+            val assignTo = binding.assignToEdittext.text.toString()
+            val sprint = binding.sprintEdittext.text.toString().toInt()
+            val attachment = binding.attachmentEdittext.text.toString()
+            val startDateEditText = binding.startDateEdittext.text.toString()
+            val endDateEditText = binding.endDateEdittext.text.toString()
+
+            val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+            val startDate = Calendar.getInstance().apply {
+                time = dateFormatter.parse(startDateEditText) as Date
+            }.time
+
+            val endDate = Calendar.getInstance().apply {
+                time = dateFormatter.parse(endDateEditText) as Date
+            }.time
+
+            databaseHandler.updateData(
+                Project(
+                    project.id,
+                    projectName,
+                    taskName,
+                    assignTo,
+                    sprint,
+                    startDate,
+                    endDate,
+                    attachment
+                )
+            )
+
+            parentFragmentManager.beginTransaction().apply {
+                (activity as MainActivity).replaceFragment(DashboardFragment())
+                addToBackStack(null)
+                commit()
             }
+        }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        val selectedDate = Calendar.getInstance()
+        selectedDate.set(Calendar.YEAR, year)
+        selectedDate.set(Calendar.MONTH, monthOfYear)
+        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        selectedDateEditText.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time))
+    }
+
 }

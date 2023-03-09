@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.marjannnnn.approdite.MainActivity
 import com.marjannnnn.approdite.R
-import com.marjannnnn.approdite.fragment.DashboardFragment
-import com.marjannnnn.approdite.fragment.EditProjectFragment
 import com.marjannnnn.approdite.model.Project
 
 
@@ -63,20 +60,6 @@ class ProjectAdapter(
         val deleteBtn: ImageButton = itemView.findViewById(R.id.delete_btn)
 
         init {
-            editBtn.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onEditClick(projectDataList[position])
-                }
-            }
-
-            deleteBtn.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onDeleteClick(projectDataList[position])
-                }
-            }
-
             itemView.setOnClickListener {
                 listener.onItemClick(projectDataList[adapterPosition])
             }
