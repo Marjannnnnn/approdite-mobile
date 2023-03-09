@@ -1,16 +1,19 @@
 package com.marjannnnn.approdite.fragment
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.marjannnnn.approdite.R
 import com.marjannnnn.approdite.adapter.ProjectAdapter
 import com.marjannnnn.approdite.db.DatabaseHandler
@@ -55,16 +58,57 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
 
         val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
         dialogBuilder.setView(dialogView)
-        dialogBuilder.setPositiveButton("Submit") { dialog, which ->
-            val projectName = projectEditText.text.toString()
-            val taskName = taskEditText.text.toString()
+        dialogBuilder.setPositiveButton("Submit", null)
+
+        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
+
+        // Set custom OnClickListener for the Submit button
+        val submitButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+        submitButton.setOnClickListener {
+            val projectName = projectEditText.text.toString().trim()
+            val taskName = taskEditText.text.toString().trim()
+
+            // Validate project and task names
+            if (projectName.isEmpty()) {
+                projectEditText.error = "Project name cannot be empty"
+                return@setOnClickListener
+            }
+            if (taskName.isEmpty()) {
+                taskEditText.error = "Task name cannot be empty"
+                return@setOnClickListener
+            }
+
             val dbHandler = DatabaseHandler(requireContext())
             dbHandler.addData(projectName, taskName)
             val projectDataList = dbHandler.getAllData()
             (projectList.adapter as ProjectAdapter).setData(projectDataList)
-        }
 
-        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
+            // Dismiss the dialog
+            dialog.dismiss()
+        }
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    override fun onItemClick(project: Project) {
+        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
+        dialogBuilder.setTitle("Detail Project")
+
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.detail_layout, null)
+        val projectNameTextView = dialogView.findViewById<TextView>(R.id.project_name_textview)
+        val taskNameTextView = dialogView.findViewById<TextView>(R.id.task_name_textview)
+
+        // set text to the TextViews
+        projectNameTextView.text = "Project Name: ${project.projectName}"
+        taskNameTextView.text = "Task Name: ${project.taskName}"
+
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setPositiveButton("OK") { dialog, which ->
             dialog.dismiss()
         }
 
@@ -73,8 +117,7 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
     }
 
     override fun onEditClick(project: Project) {
-        val dialogView =
-            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
         val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
         val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
 

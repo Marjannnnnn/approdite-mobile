@@ -11,13 +11,13 @@ import com.marjannnnn.approdite.model.Project
 
 
 class ProjectAdapter(
-    private var projectDataList: List<Project>,
-    private val listener: OnItemClickListener
+    private var projectDataList: List<Project>, private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onEditClick(project: Project)
         fun onDeleteClick(project: Project)
+        fun onItemClick(project: Project)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -69,6 +69,10 @@ class ProjectAdapter(
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onDeleteClick(projectDataList[position])
                 }
+            }
+
+            itemView.setOnClickListener {
+                listener.onItemClick(projectDataList[adapterPosition])
             }
         }
     }

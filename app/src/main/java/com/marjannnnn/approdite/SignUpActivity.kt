@@ -140,6 +140,8 @@ class SignUpActivity : AppCompatActivity() {
     private fun validatePassword(password: String, passwordLayout: TextInputLayout) {
         if (password.isEmpty()) {
             setError(passwordLayout, "Password is required")
+        } else if (password.length < 6) {
+            setError(passwordLayout, "Password must be at least 6 characters long")
         } else {
             clearError(passwordLayout)
         }
@@ -157,6 +159,8 @@ class SignUpActivity : AppCompatActivity() {
         val password = binding.passET.text.toString().trim()
         if (confirmPassword.isEmpty()) {
             setError(confirmPasswordLayout, "Confirm Password is required")
+        } else if (password.length < 6) {
+            setError(confirmPasswordLayout, "Password must be at least 6 characters long")
         } else if (confirmPassword != password) {
             setError(confirmPasswordLayout, "Confirm Password should match Password")
         } else {
@@ -164,7 +168,9 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun clearConfirmPassword(confirmPassword: String, confirmPasswordLayout: TextInputLayout) {
+    private fun clearConfirmPassword(
+        confirmPassword: String, confirmPasswordLayout: TextInputLayout
+    ) {
         if (confirmPassword.isNotEmpty()) {
             clearError(confirmPasswordLayout)
         }
