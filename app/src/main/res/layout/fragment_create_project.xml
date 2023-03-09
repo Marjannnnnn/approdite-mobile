@@ -13,8 +13,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="12dp"
-        android:orientation="vertical"
-        android:text="Form"
+        android:text="Create Project"
         android:textSize="32sp"
         android:textStyle="bold" />
 
