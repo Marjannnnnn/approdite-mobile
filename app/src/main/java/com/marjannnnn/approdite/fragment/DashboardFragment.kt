@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -35,13 +34,7 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         projectList = view.findViewById(R.id.project_list)
 
         fab.setOnClickListener {
-//            showAddProjectDialog()
-            val formProjectFragment = FormProjectFragment()
-            val fragmentManager = requireActivity().supportFragmentManager
-            fragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, formProjectFragment)
-                .addToBackStack(null)
-                .commit()
+            showAddProjectDialog()
         }
 
         // get all project data from database
@@ -54,46 +47,24 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         projectList.layoutManager = LinearLayoutManager(requireContext())
     }
 
-//    @SuppressLint("NotifyDataSetChanged")
-//    private fun showAddProjectDialog() {
-//        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
-//        val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
-//        val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
-//
-//        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
-//        dialogBuilder.setView(dialogView)
-//        dialogBuilder.setPositiveButton("Submit") { dialog, which ->
-//            val projectName = projectEditText.text.toString()
-//            val taskName = taskEditText.text.toString()
-//            val dbHandler = DatabaseHandler(requireContext())
-////            dbHandler.addData(projectName, taskName)
-//            val projectDataList = dbHandler.getAllData()
-//            (projectList.adapter as ProjectAdapter).setData(projectDataList)
-//        }
-//
-//        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
-//            dialog.dismiss()
-//        }
-//
-//        val dialog = dialogBuilder.create()
-//        dialog.show()
-//    }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun showAddProjectDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
+        val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
+        val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
 
-    @SuppressLint("SetTextI18n")
-    override fun onItemClick(project: Project) {
         val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
-        dialogBuilder.setTitle("Detail Project")
-
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.detail_layout, null)
-        val projectNameTextView = dialogView.findViewById<TextView>(R.id.project_name_textview)
-        val taskNameTextView = dialogView.findViewById<TextView>(R.id.task_name_textview)
-
-        // set text to the TextViews
-        projectNameTextView.text = "Project: ${project.projectName}"
-        taskNameTextView.text = "Task: ${project.taskName}"
-
         dialogBuilder.setView(dialogView)
-        dialogBuilder.setPositiveButton("OK") { dialog, which ->
+        dialogBuilder.setPositiveButton("Submit") { dialog, which ->
+            val projectName = projectEditText.text.toString()
+            val taskName = taskEditText.text.toString()
+            val dbHandler = DatabaseHandler(requireContext())
+            dbHandler.addData(projectName, taskName)
+            val projectDataList = dbHandler.getAllData()
+            (projectList.adapter as ProjectAdapter).setData(projectDataList)
+        }
+
+        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
             dialog.dismiss()
         }
 
@@ -101,40 +72,34 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         dialog.show()
     }
 
-
     override fun onEditClick(project: Project) {
-        val formProjectFragment = FormProjectFragment()
-        val fragmentManager = requireActivity().supportFragmentManager
-        fragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, formProjectFragment)
-            .addToBackStack(null)
-            .commit()
-//        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
-//        val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
-//        val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
-//
-//        // set default value of project name and task name
-//        projectEditText.setText(project.projectName)
-//        taskEditText.setText(project.taskName)
-//
-//        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
-//        dialogBuilder.setView(dialogView)
-//        dialogBuilder.setPositiveButton("Update") { dialog, which ->
-//            val projectName = projectEditText.text.toString()
-//            val taskName = taskEditText.text.toString()
-//            val dbHandler = DatabaseHandler(requireContext())
-//            // update project data
-////            dbHandler.updateData(Project(project.id, projectName, taskName))
-//            val projectDataList = dbHandler.getAllData()
-//            (projectList.adapter as ProjectAdapter).setData(projectDataList)
-//        }
-//
-//        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
-//            dialog.dismiss()
-//        }
-//
-//        val dialog = dialogBuilder.create()
-//        dialog.show()
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
+        val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
+        val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
+
+        // set default value of project name and task name
+        projectEditText.setText(project.projectName)
+        taskEditText.setText(project.taskName)
+
+        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setPositiveButton("Update") { dialog, which ->
+            val projectName = projectEditText.text.toString()
+            val taskName = taskEditText.text.toString()
+            val dbHandler = DatabaseHandler(requireContext())
+            // update project data
+            dbHandler.updateData(Project(project.id, projectName, taskName))
+            val projectDataList = dbHandler.getAllData()
+            (projectList.adapter as ProjectAdapter).setData(projectDataList)
+        }
+
+        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 
     @SuppressLint("NotifyDataSetChanged")

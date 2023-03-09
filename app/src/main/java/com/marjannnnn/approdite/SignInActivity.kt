@@ -27,14 +27,6 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var titlePasswordText: TextView
 
 
-    override fun onStart() {
-        super.onStart()
-        firebaseAuth.currentUser?.let {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
