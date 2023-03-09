@@ -39,7 +39,6 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
 
         fab.setOnClickListener {
             (activity as MainActivity).replaceFragment(CreateProjectFragment())
-//            showAddProjectDialog()
         }
 
         // get all project data from database
@@ -88,14 +87,7 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
     }
 
     override fun onEditClick(project: Project) {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
-        val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
-        val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
-
-        // set default value of project name and task name
-        projectEditText.setText(project.projectName)
-        taskEditText.setText(project.taskName)
-
+        (activity as MainActivity).replaceFragment(EditProjectFragment())
     }
 
     @SuppressLint("NotifyDataSetChanged")
