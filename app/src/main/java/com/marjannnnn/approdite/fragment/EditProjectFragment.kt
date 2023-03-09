@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.marjannnnn.approdite.MainActivity
@@ -26,8 +28,7 @@ class EditProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private val calendar = Calendar.getInstance()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEditProjectBinding.inflate(inflater, container, false)
         databaseHandler = DatabaseHandler(requireContext())
@@ -37,6 +38,19 @@ class EditProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Replace fragment on back press
+                (activity as MainActivity).replaceFragment(DashboardFragment())
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+        binding.close.setOnClickListener {
+            (activity as MainActivity).replaceFragment(DashboardFragment())
+        }
+
         project = requireArguments().getSerializable("project") as Project
 
         binding.projectNameEdittext.setText(project.projectName)
@@ -44,8 +58,16 @@ class EditProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         binding.assignToEdittext.setText(project.assignTo)
         binding.sprintEdittext.setText(project.sprint.toString())
         binding.attachmentEdittext.setText(project.attachment)
-        binding.startDateEdittext.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(project.startDate))
-        binding.endDateEdittext.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(project.endDate))
+        binding.startDateEdittext.setText(
+            SimpleDateFormat(
+                "dd/MM/yyyy", Locale.getDefault()
+            ).format(project.startDate)
+        )
+        binding.endDateEdittext.setText(
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+                project.endDate
+            )
+        )
 
         datePicker = DatePickerDialog(
             requireContext(),
@@ -73,6 +95,13 @@ class EditProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             val attachment = binding.attachmentEdittext.text.toString()
             val startDateEditText = binding.startDateEdittext.text.toString()
             val endDateEditText = binding.endDateEdittext.text.toString()
+
+            if (projectName.isEmpty() || taskName.isEmpty() || assignTo.isEmpty() || startDateEditText.isEmpty() || endDateEditText.isEmpty()) {
+                // menampilkan pesan error jika ada input field yang kosong
+                Toast.makeText(requireContext(), "Please fill all the fields", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
 
             val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
@@ -103,6 +132,7 @@ class EditProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 commit()
             }
         }
+
     }
 
     override fun onDestroyView() {
@@ -116,7 +146,11 @@ class EditProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         selectedDate.set(Calendar.MONTH, monthOfYear)
         selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-        selectedDateEditText.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time))
+        selectedDateEditText.setText(
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+                selectedDate.time
+            )
+        )
     }
 
 }

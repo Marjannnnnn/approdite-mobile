@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.marjannnnn.approdite.model.Project
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,25 +37,19 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         onCreate(db)
     }
 
-    fun addData(name: String, task: String, assignTo: String, sprint: Int, startDate: Date, endDate: Date, attachment: String) {
+    fun addData(project: Project) {
         val db = this.writableDatabase
         val values = ContentValues()
-        val startDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(startDate)
-        val endDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(endDate)
+        val startDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(project.startDate)
+        val endDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(project.endDate)
 
-        Log.i("start date:","${startDate}")
-        Log.i("end date:", "${endDate}")
-
-        // end date: Mon Mar 20 16:42:31 GMT+07:00 2023
-        // start date:  Mon Mar 20 16:42:31 GMT+07:00 2023
-
-        values.put(KEY_NAME, name)
-        values.put(KEY_TASK, task)
-        values.put(KEY_ASSIGN_TO, assignTo)
-        values.put(KEY_SPRINT, sprint)
+        values.put(KEY_NAME, project.projectName)
+        values.put(KEY_TASK, project.taskName)
+        values.put(KEY_ASSIGN_TO, project.assignTo)
+        values.put(KEY_SPRINT, project.sprint)
         values.put(KEY_START_DATE, startDateString)
         values.put(KEY_END_DATE, endDateString)
-        values.put(KEY_ATTACHMENT, attachment)
+        values.put(KEY_ATTACHMENT, project.attachment)
         db.insert(TABLE_NAME, null, values)
         db.close()
     }
@@ -79,8 +72,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                     cursor.getString(cursor.getColumnIndex(KEY_TASK)),
                     cursor.getString(cursor.getColumnIndex(KEY_ASSIGN_TO)),
                     cursor.getInt(cursor.getColumnIndex(KEY_SPRINT)),
-                    startDate,
-                    endDate,
+                    startDate!!,
+                    endDate!!,
                     cursor.getString(cursor.getColumnIndex(KEY_ATTACHMENT))
                 )
                 projectList.add(project)

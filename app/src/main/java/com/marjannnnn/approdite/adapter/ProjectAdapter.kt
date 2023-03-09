@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marjannnnn.approdite.R
 import com.marjannnnn.approdite.model.Project
 
-
 class ProjectAdapter(
     private var projectDataList: List<Project>, private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
@@ -50,7 +49,9 @@ class ProjectAdapter(
         notifyDataSetChanged()
     }
 
-    override fun getItemCount() = projectDataList.size
+    override fun getItemCount(): Int {
+        return projectDataList.size
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val projectNumber: TextView = itemView.findViewById(R.id.project_number)

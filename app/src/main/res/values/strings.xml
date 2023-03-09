@@ -36,4 +36,15 @@
     <string name="nim">undefined</string>
     <string name="fakultas">Smk Wikrama</string>
     <string name="logo">TODO</string>
+    <string name="logout_text">Logout !</string>
+    <string name="welcome_to_approdite">Welcome To Approdite</string>
+    <string name="edit_project">Edit Project</string>
+    <string name="project_name">Project Name</string>
+    <string name="task_name">Task Name</string>
+    <string name="assign_to">Assign To</string>
+    <string name="sprint">Sprint</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="attachment">Attachment</string>
+    <string name="create_project">Create Project</string>
 </resources>

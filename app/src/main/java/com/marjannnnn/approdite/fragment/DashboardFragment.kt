@@ -1,12 +1,12 @@
 package com.marjannnnn.approdite.fragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -78,7 +78,7 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         attachmentTextView.text = "Attachment: ${project.attachment}"
 
         dialogBuilder.setView(dialogView)
-        dialogBuilder.setPositiveButton("OK") { dialog, which ->
+        dialogBuilder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
         }
 
@@ -97,12 +97,21 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         (activity as MainActivity).replaceFragment(editProjectFragment)
     }
 
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onDeleteClick(project: Project) {
         val dbHandler = DatabaseHandler(requireContext())
-        dbHandler.deleteData(project.id)
-        val projectDataList = dbHandler.getAllData()
-        (projectList.adapter as ProjectAdapter).setData(projectDataList)
+
+        AlertDialog.Builder(requireContext()).setTitle(
+            "Confirm"
+        ).setMessage("Are you sure you want to delete the '${project.projectName}' project?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                dbHandler.deleteData(project.id)
+                val projectDataList = dbHandler.getAllData()
+                (projectList.adapter as ProjectAdapter).setData(projectDataList)
+                dialog.dismiss()
+            }.setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }.show()
     }
+
 }

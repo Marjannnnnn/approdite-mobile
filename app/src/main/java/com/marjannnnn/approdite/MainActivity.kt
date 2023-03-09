@@ -54,15 +54,15 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage(
-            "Are you sure you want to leave?"
-        ).setCancelable(false).setPositiveButton("Yes") { _, _ ->
-            finishAffinity()
-        }.setNegativeButton("No", null)
-        val alert = builder.create()
-        alert.show()
-    }
+//    @Deprecated("Deprecated in Java")
+//    override fun onBackPressed() {
+//        val builder = AlertDialog.Builder(this)
+//        builder.setMessage(
+//            "Are you sure you want to leave?"
+//        ).setCancelable(false).setPositiveButton("Yes") { _, _ ->
+//            finishAffinity()
+//        }.setNegativeButton("No", null)
+//        val alert = builder.create()
+//        alert.show()
+//    }
 }
