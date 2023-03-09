@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.marjannnnn.approdite.model.Project
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,6 +43,12 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         val values = ContentValues()
         val startDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(startDate)
         val endDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(endDate)
+
+        Log.i("start date:","${startDate}")
+        Log.i("end date:", "${endDate}")
+
+        // end date: Mon Mar 20 16:42:31 GMT+07:00 2023
+        // start date:  Mon Mar 20 16:42:31 GMT+07:00 2023
 
         values.put(KEY_NAME, name)
         values.put(KEY_TASK, task)

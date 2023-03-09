@@ -1,7 +1,6 @@
 package com.marjannnnn.approdite.fragment
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +17,8 @@ import com.marjannnnn.approdite.R
 import com.marjannnnn.approdite.adapter.ProjectAdapter
 import com.marjannnnn.approdite.db.DatabaseHandler
 import com.marjannnnn.approdite.model.Project
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
 
@@ -37,7 +38,7 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         projectList = view.findViewById(R.id.project_list)
 
         fab.setOnClickListener {
-            (activity as MainActivity).replaceFragment(FormProjectFragment())
+            (activity as MainActivity).replaceFragment(CreateProjectFragment())
 //            showAddProjectDialog()
         }
 
@@ -50,50 +51,6 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         projectList.adapter = adapter
         projectList.layoutManager = LinearLayoutManager(requireContext())
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun showAddProjectDialog() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null)
-        val projectEditText = dialogView.findViewById<EditText>(R.id.project_name_edittext)
-        val taskEditText = dialogView.findViewById<EditText>(R.id.task_name_edittext)
-
-        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
-        dialogBuilder.setView(dialogView)
-        dialogBuilder.setPositiveButton("Submit", null)
-
-        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
-            dialog.dismiss()
-        }
-
-        val dialog = dialogBuilder.create()
-        dialog.show()
-
-        // Set custom OnClickListener for the Submit button
-        val submitButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-        submitButton.setOnClickListener {
-            val projectName = projectEditText.text.toString().trim()
-            val taskName = taskEditText.text.toString().trim()
-
-            // Validate project and task names
-            if (projectName.isEmpty()) {
-                projectEditText.error = "Project name cannot be empty"
-                return@setOnClickListener
-            }
-            if (taskName.isEmpty()) {
-                taskEditText.error = "Task name cannot be empty"
-                return@setOnClickListener
-            }
-
-            val dbHandler = DatabaseHandler(requireContext())
-//            dbHandler.addData(projectName, taskName)
-            val projectDataList = dbHandler.getAllData()
-            (projectList.adapter as ProjectAdapter).setData(projectDataList)
-
-            // Dismiss the dialog
-            dialog.dismiss()
-        }
-    }
-
 
     @SuppressLint("SetTextI18n", "MissingInflatedId")
     override fun onItemClick(project: Project) {
@@ -108,16 +65,18 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         val startDateTextView = dialogView.findViewById<TextView>(R.id.start_date_textview)
         val endDateTextView = dialogView.findViewById<TextView>(R.id.end_date_textview)
         val attachmentTextView = dialogView.findViewById<TextView>(R.id.attachment_textview)
+        val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.US)
+        val startDate = outputFormat.format(project.startDate)
+        val endDate = outputFormat.format(project.endDate)
 
         // set text to the TextViews
         projectNameTextView.text = "Project Name: ${project.projectName}"
         taskNameTextView.text = "Task Name: ${project.taskName}"
         assignToTextView.text = "Assign To: ${project.assignTo}"
         sprintTextView.text = "Sprint: ${project.sprint}"
-        startDateTextView.text = "Start Date: ${project.startDate}"
-        endDateTextView.text = "End Date: ${project.endDate}"
+        startDateTextView.text = "Start Date: $startDate"
+        endDateTextView.text = "End Date: $endDate"
         attachmentTextView.text = "Attachment: ${project.attachment}"
-
 
         dialogBuilder.setView(dialogView)
         dialogBuilder.setPositiveButton("OK") { dialog, which ->
@@ -137,24 +96,6 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
         projectEditText.setText(project.projectName)
         taskEditText.setText(project.taskName)
 
-        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
-        dialogBuilder.setView(dialogView)
-        dialogBuilder.setPositiveButton("Update") { dialog, which ->
-            val projectName = projectEditText.text.toString()
-            val taskName = taskEditText.text.toString()
-            val dbHandler = DatabaseHandler(requireContext())
-            // update project data
-//            dbHandler.updateData(Project(project.id, projectName, taskName))
-            val projectDataList = dbHandler.getAllData()
-            (projectList.adapter as ProjectAdapter).setData(projectDataList)
-        }
-
-        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
-            dialog.dismiss()
-        }
-
-        val dialog = dialogBuilder.create()
-        dialog.show()
     }
 
     @SuppressLint("NotifyDataSetChanged")

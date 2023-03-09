@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/create_project_fragment"
-        android:name="com.marjannnnn.approdite.fragment.FormProjectFragment"
+        android:name="com.marjannnnn.approdite.fragment.CreateProjectFragment"
         android:label="Create Project"
-        tools:layout="@layout/fragment_form_project" />
+        tools:layout="@layout/fragment_create_project" />
 </navigation>

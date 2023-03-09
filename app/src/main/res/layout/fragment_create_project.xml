@@ -4,15 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.FormProjectFragment">
+    tools:context=".fragment.CreateProjectFragment">
 
-
-    <LinearLayout
-        android:id="@+id/project_form"
-        android:layout_marginTop="80dp"
+    <TextView
+        android:id="@+id/title_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical"
+        android:text="Form"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/project_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout

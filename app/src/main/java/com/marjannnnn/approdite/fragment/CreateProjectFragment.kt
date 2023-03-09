@@ -9,14 +9,13 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import com.google.android.material.textfield.TextInputEditText
 import com.marjannnnn.approdite.MainActivity
-import com.marjannnnn.approdite.databinding.FragmentFormProjectBinding
+import com.marjannnnn.approdite.databinding.FragmentCreateProjectBinding
 import com.marjannnnn.approdite.db.DatabaseHandler
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
-class FormProjectFragment : Fragment(),DatePickerDialog.OnDateSetListener {
-    private var _binding: FragmentFormProjectBinding? = null
+class CreateProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
+    private var _binding: FragmentCreateProjectBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var datePicker: DatePickerDialog
@@ -26,10 +25,9 @@ class FormProjectFragment : Fragment(),DatePickerDialog.OnDateSetListener {
     private lateinit var databaseHandler: DatabaseHandler
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFormProjectBinding.inflate(inflater, container, false)
+        _binding = FragmentCreateProjectBinding.inflate(inflater, container, false)
         databaseHandler = DatabaseHandler(requireContext())
         return binding.root
     }
@@ -38,8 +36,11 @@ class FormProjectFragment : Fragment(),DatePickerDialog.OnDateSetListener {
         super.onViewCreated(view, savedInstanceState)
 
         datePicker = DatePickerDialog(
-            requireContext(), this, calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+            requireContext(),
+            this,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         )
 
         binding.startDateEdittext.setOnClickListener {
@@ -58,12 +59,22 @@ class FormProjectFragment : Fragment(),DatePickerDialog.OnDateSetListener {
             val assignTo = binding.assignToEdittext.text.toString()
             val sprint = binding.sprintEdittext.text.toString().toInt()
             val attachment = binding.attachmentEdittext.text.toString()
-            val startDate = calendar.time
-            selectedDateEditText = binding.startDateEdittext
-            val endDate = calendar.time
-            selectedDateEditText = binding.endDateEdittext
+            val startDateEditText = binding.startDateEdittext.text.toString()
+            val endDateEditText = binding.endDateEdittext.text.toString()
 
-            databaseHandler.addData(projectName,taskName,assignTo,sprint,startDate,endDate,attachment)
+            val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+            val startDate = Calendar.getInstance().apply {
+                time = dateFormatter.parse(startDateEditText) as Date
+            }.time
+
+            val endDate = Calendar.getInstance().apply {
+                time = dateFormatter.parse(endDateEditText) as Date
+            }.time
+
+            databaseHandler.addData(
+                projectName, taskName, assignTo, sprint, startDate, endDate, attachment
+            )
 
             parentFragmentManager.beginTransaction().apply {
                 (activity as MainActivity).replaceFragment(DashboardFragment())
@@ -80,7 +91,11 @@ class FormProjectFragment : Fragment(),DatePickerDialog.OnDateSetListener {
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(year, month, dayOfMonth)
-        selectedDateEditText.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time))
+        selectedDateEditText.setText(
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+                calendar.time
+            )
+        )
     }
 
 }
