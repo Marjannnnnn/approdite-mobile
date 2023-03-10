@@ -1,5 +1,6 @@
 package com.marjannnnn.approdite.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.marjannnnn.approdite.R
@@ -30,13 +32,28 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage("Are you sure you want to leave?").setCancelable(false)
+                    .setPositiveButton("Yes") { _, _ ->
+                        requireActivity().finishAffinity()
+                    }.setNegativeButton("No", null)
+                val alert = builder.create()
+                alert.show()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         firebaseAuth = FirebaseAuth.getInstance()
         logOutBtn = requireView().findViewById(R.id.logOutBtn)
@@ -54,12 +71,11 @@ class HomeFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance(param1: String, param2: String) = HomeFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_PARAM1, param1)
+                putString(ARG_PARAM2, param2)
             }
+        }
     }
 }

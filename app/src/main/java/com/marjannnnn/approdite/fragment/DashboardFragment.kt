@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -33,6 +34,20 @@ class DashboardFragment : Fragment(), ProjectAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage("Are you sure you want to leave?").setCancelable(false)
+                    .setPositiveButton("Yes") { _, _ ->
+                        requireActivity().finishAffinity()
+                    }.setNegativeButton("No", null)
+                val alert = builder.create()
+                alert.show()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         fab = view.findViewById(R.id.fab)
         projectList = view.findViewById(R.id.project_list)
