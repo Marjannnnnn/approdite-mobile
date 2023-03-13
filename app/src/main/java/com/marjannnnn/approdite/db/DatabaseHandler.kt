@@ -57,7 +57,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     @SuppressLint("Range")
     fun getAllData(): ArrayList<Project> {
         val projectList = ArrayList<Project>()
-        val selectQuery = "SELECT * FROM $TABLE_NAME"
+        val selectQuery = "SELECT * FROM $TABLE_NAME ORDER BY $KEY_ID DESC"
         val db = this.readableDatabase
         val cursor = db.rawQuery(selectQuery, null)
         if (cursor.moveToFirst()) {
@@ -83,6 +83,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         db.close()
         return projectList
     }
+
 
     fun updateData(project: Project) {
         val db = this.writableDatabase
