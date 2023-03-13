@@ -4,10 +4,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/cirno"
+        android:icon="@mipmap/cirno_launcher_foreground"
         android:forceDarkAllowed="false"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/cirno"
+        android:roundIcon="@mipmap/cirno_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Approdite"
         tools:targetApi="q">

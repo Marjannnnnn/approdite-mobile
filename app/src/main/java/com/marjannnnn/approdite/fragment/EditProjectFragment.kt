@@ -1,5 +1,6 @@
 package com.marjannnnn.approdite.fragment
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -41,7 +42,13 @@ class EditProjectFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // Replace fragment on back press
-                (activity as MainActivity).replaceFragment(DashboardFragment())
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage("Are you sure to cancel edit project?").setCancelable(false)
+                    .setPositiveButton("Yes") { _, _ ->
+                        (activity as MainActivity).replaceFragment(DashboardFragment())
+                    }.setNegativeButton("No", null)
+                val alert = builder.create()
+                alert.show()
             }
         }
 
